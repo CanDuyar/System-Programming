@@ -1,0 +1,90 @@
+\documentclass[a4 paper]{article}
+\usepackage{xcolor}
+
+\title{FINAL / REPORT}
+
+\author{ Can Duyar - 171044075}
+
+\begin{document}
+\date{}
+\maketitle
+
+{\color{red}\large\textbf {Solving The Problem And Design Decisions:}}\newline\\
+
+\textbf{{\large SERVER:}}\newline
+\newline
+\textbf{parse\_args:}\newline\
+\phantom{beta}This function parses arguments and check if those are valid or not. If not valid then it print messages and exit. After that this function opens log file.
+\newline\\
+\textbf{getColumn:}\newline\
+\phantom{beta}This function reads columns from first line of given file and then it returns column number.
+\newline\\
+\textbf{init\_table:}\newline\
+\phantom{beta}This function initialize table struct object. It allocated memories where it needed.
+\newline\\
+\textbf{fill\_table:}\newline\
+\phantom{beta}This function copy all data from given char* array to table object.
+\newline\\
+\textbf{free\_table:}\newline\
+\phantom{beta}This function free up table object what allocated at init\_table function.
+\newline\\
+\textbf{split:}\newline\
+\phantom{beta}This function splits a given line into column cells.
+\newline\\
+\textbf{getArray:}\newline\
+\phantom{beta}This function copies all data from link list to an array of char* and free up link list using recToStr function and recFree function.
+\newline\\
+\textbf{recToStr:}\newline\
+\phantom{beta}This function copies all data from linked list to an array of char*.
+\newline\\
+\textbf{freeString:}\newline\
+\phantom{beta}This function frees allocated char* array.
+\newline\\
+\textbf{recFree:}\newline\
+\phantom{beta}This function frees allocated link list.
+\newline\\
+\newline\\
+\textbf{write\_buff:}\newline\
+\phantom{beta}This function sends a string to client and get conformation about is it reached to  client or not.
+\newline\\
+\textbf{client\_handler:}\newline\
+\phantom{beta}Pool threads runs this function. They do their job in this function.
+\newline\\
+\textbf{handle:}\newline\
+\phantom{beta} This function will called by pool threads from client\_handler function. This function reads SQL query from client and returns result from table object.
+\newline\\
+\textbf{getIndex:}\newline\
+\phantom{beta}This function returns index of a column by name.
+\newline\\
+\textbf{terminate:}\newline\
+\phantom{beta}This function is called when user send a termination signal. At this function all allocated memories will be freed and program will exit after current working threads are finished.
+\newline\\
+\textbf{skeleton\_daemon:}\newline\
+\phantom{beta} This function creates a daemon process that runs in background.
+\newline\\
+\textbf{getIndex:}\newline\
+\phantom{beta}This function returns index of a column by name.
+\newline\\
+\textbf{MONITORS:}\newline\
+\phantom{beta} In server, while writing a log to logfile it usage monitor to synchronize. And also while update command is received. So a single thread can write to log file at a time.
+\newline\\
+\newline\\
+\textbf{{\large CLIENT:}}\newline
+\newline
+\textbf{parse\_args:}\newline\
+\phantom{beta}This function parses arguments and check if those are valid or not. If not valid then it print messages and exit.
+\newline\\
+\textbf{read\_buff:}\newline\
+\phantom{beta}This function reads from server and sends a conformation.
+\newline\\
+\textbf{func:}\newline\
+\phantom{beta}This function opens query file and reads line by line. For every line it is checking id, if its then it sends that to server and reads results and prints that. After finishing the file its exited.\newline\\
+\newline\\
+
+I couldnt implement UPDATE command. It works with every select commands. Every pool threads can read table at same time so, it doesn’t require any file locks. If it gets an UPDATE command then it just sends an error message to client.Server’s main function at first calls skeleton\_daemon function and creates this as a daemon process. After that it parses arguments and registers signals. And then it reads the dataset file and stores them in an self reference array of LinkList struct object. Then main function calls others functions as needed.Client’s main function open and connect a socket to server socket. And then this function calls others functions as needed.
+\newline
+
+{\color{red}\large\textbf {Which requirements I achieved and which I have failed:}}\newline\\
+\phantom{beta}I checked it with valgrind and there was no memory leak, and I also checked the number of zombie processes after the program running and number of zombie processes were 0. I couldnt implement UPDATE command.SELECT and SELECT DISTINCT commands work properly.
+\end{document}
+

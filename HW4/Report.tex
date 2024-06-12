@@ -1,0 +1,58 @@
+\documentclass[a4 paper]{article}
+\usepackage{xcolor}
+
+\title{HW4 / REPORT}
+
+\author{ Can Duyar - 171044075}
+
+\begin{document}
+\date{}
+\maketitle
+
+{\color{red}\large\textbf {Solving The Problem And Design Decisions:}}\newline\\
+
+\textbf{Handling termination signal:}\newline\
+\phantom{beta}When user send a termination signal such as Ctrl+C then handle\_sig function will handle the command.When it get signal it will send signal to all threads to be terminated and then it wait for them to terminate and then free allocated memory and finished.\newline\\
+
+\textbf{Reading arguments:}\newline\
+\phantom{beta}Check if not enough arguments then exit program else assign arguments. \newline\\
+
+\textbf{Open file and read:}\newline\
+\phantom{beta}Open given students file and read how many students on that file. And then allocate memory for total students and their shorted list. And then again read the file line by line and split words from that line. And then making student object with values and creating a thread for that student. After creating all students close the opened file.\newline\\
+
+
+\textbf{Sorting students and printing:}\newline\
+\phantom{beta}Sorting students by quality, speed, and cost and storing sorted index in different variables. After that print all students.\newline\\
+
+
+\textbf{Opening homework file and creating a thread to handle:}\newline\
+\phantom{beta}Opening given homework file and creating W thread to handle homework file. W thread will do stuff inside h\_homework function. In h\_homework function read a char at a time and put this homework into buffer. If buffer is full then it will wait. \newline\\
+
+
+\textbf{Reading buffer and giving homework to student:}\newline\
+\phantom{beta}Then main thread read buffer and identify what type of homework is it and get that type of sorted index array of students. After that it will call the nearest student from sorted array. If all are busy it will wait until one of them get free.\newline\\
+
+
+\textbf{Print final result and terminate:}\newline\
+\phantom{beta}After money is over or all homework is done it print final result and terminate.\newline\\
+
+\textbf{\large FUNCTIONS}\newline\
+
+\textbf{read\_ line::}\newline\
+\phantom{beta}For this we are using read\_line function. This function will read one by one char until it will get new line char. Then it store that line to given variable and returns size.\newline\
+
+\textbf{split\_words:}\newline\
+\phantom{beta}This function takes a line of string and split words. It split string by space. It stores split words in an array.\newline\
+
+\textbf{sort\_students:}\newline\
+\phantom{beta}This function sort students by mode. It stores sorted students’ array into a int array.\newline\\
+
+\textbf{doHomework:}\newline\
+\phantom{beta}This function will be called by students. In this function when a student gets homework it will check the money if have enough money then it will cost money and update homework. When it get termination signal or homework finished signal or not enough money it finished the loop and terminate.\newline\\
+
+I checked it with valgrind and there was no memory leak, and I also checked the number of zombie processes after the program running and number of zombie processes were 0.\newline
+
+{\color{red}\large\textbf {Which requirements I achieved and which I have failed:}}\newline\\
+\phantom{beta}Every requirements are provided and it works properly.
+\end{document}
+

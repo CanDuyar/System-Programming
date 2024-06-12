@@ -1,0 +1,84 @@
+\documentclass[a4 paper]{article}
+\usepackage{xcolor}
+
+\title{MIDTERM / REPORT}
+
+\author{ Can Duyar - 171044075}
+
+\begin{document}
+\date{}
+\maketitle
+
+{\color{red}\large\textbf {Solving The Problem And Design Decisions:}}\newline\\
+\newline
+\textbf{Handling termination signal:}\newline\
+\phantom{beta}When user send a termination signal such as Ctrl+C then handle\_signal function will handle the command. When it get signal I]it will unlink system POSIX named semaphores and send a termination message to all running processes. Doesn’t require shared memory to be free cause system will free memory automatic allocated with mmap function.\newline\\
+
+\textbf{Reading arguments:}\newline\
+\phantom{beta}Check argument identifiers and based on argument identifiers assign arguments. After that the program will check every required argument is given or not, if every required arguments not given then show message and finish program. \newline\\
+
+\textbf{Shared memory:}\newline\
+\phantom{beta}Mapping shared memory for sharing data and communicating between processes. This memory will store all vaccines, buffer vaccines, citizens’ pid and vaccine number, signal state termination, total vaccine 1 in buffer, total vaccine 2 in buffer and citizens’ state.  Those data will be accessed by all child processes.\newline\\
+
+
+\textbf{Vaccines from file:}\newline\
+\phantom{beta}Opening the vaccines file by the given path. At first it will read a vaccine at a time and stores in shared memory and also count total vaccines added to shared memory from file. After that it checks total vaccines stores in shared memory from file and if there is not enough vaccines then it will print message and exit the program.\newline\\
+
+
+\textbf{POSIX Semaphore:}\newline\
+\phantom{beta}Get shared named semaphores. Those semaphores will be used for synchronization. We will synchronize all nurses so, only one nurse can take a vaccine to buffer at a time. All vaccinators so, only one vaccinator can vaccinate a citizen at a time. We also need to synchronize nurses and vaccinators so they will not access buffer at the same time. And also we need to synchronize citizen process and vaccinator process to maintain vaccination output.\newline\\
+
+
+\textbf{Creating child processes:}\newline\
+\phantom{beta}Here it calls three functions. First function will creates all  citizen processes and defines their work. Second function will creates all nurse processes and defines their works. And the last one will creates all vaccinator processes.\newline\\
+
+
+\textbf{Wait and exit:}\newline\
+\phantom{beta}Here program will wait for every child processes to be finish. And after all child processes has been finished the program will unlink all shared named semaphores. And then finish the program.\newline\\
+
+\textbf{\large FUNCTIONS}\newline\
+\newline
+\textbf{Void handle\_signal(int):}\newline\
+\phantom{beta}This function takes the signal and unlink all shared named semaphores and then exit the program. This function is used for handling termination signal from the user.\newline\
+
+\textbf{Void print\_usage():}\newline\
+\phantom{beta}This function prints the right format for running the program. And then exit.\newline\
+
+\textbf{Void* mem\_map(int):}\newline\
+\phantom{beta}This function takes size as argument and map the memory and returns void pointer of mapped memory.\newline\\
+
+\textbf{Void nurses\_work(int):}\newline\
+\phantom{beta}This function takes total nurses processes to be create. And it fork those processes and defines their works.\newline\\
+
+\textbf{char get\_vaccine():}\newline\
+\phantom{beta}This function will be used by nurse process to took a vaccine from shared memory that is stored from vaccine file. This function returns a char vaccine.\newline\\
+
+\textbf{Int put\_vaccine(char):}\newline\
+\phantom{beta}This function also used by nurse process. This function takes a vaccine and stores it in buffer. If success it returns 1 else 0.\newline\\
+
+\textbf{Void vaccinators\_work(int):}\newline\
+\phantom{beta}This function takes total vaccinator processes to be create. And it fork those processes and defines their works.\newline\\
+
+\textbf{Int* get\_citizens():}\newline\
+\phantom{beta}This function is used to get sorted citizens list. This is for bonus part. This function takes all citizens and sorted them by their pid. And returns the array.  This function is used by vaccinator processes.\newline\\
+
+\textbf{Char get\_vaccine1():}\newline\
+\phantom{beta}This function is used by vaccinator processes. It tooks a vaccine1 from buffer and freturns it. If buffer is empty then its retuns null char.\newline\\
+
+\textbf{Char get\_vaccine2():}\newline\
+\phantom{beta}This function is used by vaccinator processes. It takes a vaccine2 from buffer and returns it. If buffer is empty then its returns null char.\newline\\
+
+
+\textbf{Void citizens\_work(int):}\newline\
+\phantom{beta}This function takes total citizen processes to be create. And it fork those processes and defines their works.\newline\\
+
+\textbf{Int register\_citizen(int):}\newline\
+\phantom{beta}This function is used by citizen processes. This function takes pid and stores them into shared memory so then vaccinator processes can access them and vaccinate them. It returns the index of shared memory where pid is putted.\newline\\
+
+
+I checked it with valgrind and there was no memory leak, and I also checked the number of zombie processes after the program running and number of zombie processes were 0.\newline
+
+{\color{red}\large\textbf {Which requirements I achieved and which I have failed:}}\newline\\
+\phantom{beta}Every requirements are provided and it works properly.
+\end{document}
+
